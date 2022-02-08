@@ -1,0 +1,473 @@
+MPASM  5.30.01                      CAFETERA.ASM   11-3-2021  21:25:06         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+Warning[205]: Found directive in column 1. (__CONFIG)
+2007   3FF1           00001 __CONFIG _CP_OFF & _WDT_OFF & _PWRTE_ON & _XT_OSC
+Warning[205]: Found directive in column 1. (INCLUDE)
+                      00002 INCLUDE <P16F84A.INC>
+                      00001         LIST
+                      00002 ; P16F84A.INC  Standard Header File, Version 2.00    Microchip Technology, Inc.
+                      00134         LIST
+                      00003 
+Warning[205]: Found directive in column 1. (CBLOCK)
+                      00004 CBLOCK .12
+  0000000C            00005 TINTO
+  0000000D            00006 MONEDA
+  0000000E            00007 CONTADOR
+  0000000F            00008 CONTADOR_1
+  00000010            00009 CONTADOR_2
+  00000011            00010 CONTADOR_3
+                      00011         
+                      00012                                                         ;VARIABLES
+Warning[205]: Found directive in column 1. (ENDC)
+                      00013 ENDC
+Warning[205]: Found directive in column 1. (ORG)
+0000                  00014 ORG .0                          ;INICIO DE ARRANQUE
+Warning[203]: Found opcode in column 1. (GOTO)
+0000   28AC           00015 GOTO INICIO     
+                      00016 
+                      00017 #DEFINE SM      PORTA,1
+                      00018 #DEFINE SELECT  PORTA,3
+                      00019 #DEFINE B.ENTER PORTA,4
+                      00020 #DEFINE SR              PORTB,0
+                      00021 
+                      00022 #DEFINE AGUA    PORTB,1
+                      00023 #DEFINE LECHE   PORTB,2
+                      00024 #DEFINE CAFE    PORTB,3
+                      00025 
+0001                  00026 Mensajes
+Warning[203]: Found opcode in column 1. (ADDWF)
+0001   0782           00027 ADDWF   PCL,F
+                      00028 
+0002                  00029 BIENVENIDO
+0002   3420 3420 3420 00030         DT "   BIENVENIDO   ",0X00
+       3442 3449 3445 
+       344E 3456 3445 
+       344E 3449 3444 
+       344F 3420 3420 
+       3420 3400 
+0013                  00031 SELEC
+0013   3453 3445 344C 00032         DT "SELECCIONE COFEE",0X00
+       3445 3443 3443 
+       3449 344F 344E 
+       3445 3420 3443 
+       344F 3446 3445 
+       3445 3400 
+0024                  00033 CAFE_NEGRO
+MPASM  5.30.01                      CAFETERA.ASM   11-3-2021  21:25:06         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0024   3420 3420 3420 00034         DT "   CAFE NEGRO   ",0X00
+       3443 3441 3446 
+       3445 3420 344E 
+       3445 3447 3452 
+       344F 3420 3420 
+       3420 3400 
+0035                  00035 CAFE_CON_LECHE
+0035   3420 3443 3441 00036         DT " CAFE CON LECHE ",0X00
+       3446 3445 3420 
+       3443 344F 344E 
+       3420 344C 3445 
+       3443 3448 3445 
+       3420 3400 
+0046                  00037 CAFE_EN_LECHE
+0046   3420 3443 3441 00038         DT " CAFE EN LECHE  ",0X00
+       3446 3445 3420 
+       3445 344E 3420 
+       344C 3445 3443 
+       3448 3445 3420 
+       3420 3400 
+0057                  00039 INGRESE_MONEDAS
+0057   3449 344E 3447 00040         DT "INGRESE   MONEDA",0X00
+       3452 3445 3453 
+       3445 3420 3420 
+       3420 344D 344F 
+       344E 3445 3444 
+       3441 3400 
+0068                  00041 DISPENSANDO_AGUA
+0068   3420 3420 3420 00042         DT "   DISPEN AGUA  ",0X00
+       3444 3449 3453 
+       3450 3445 344E 
+       3420 3441 3447 
+       3455 3441 3420 
+       3420 3400 
+0079                  00043 DISPENSANDO_CAFE
+0079   3420 3420 3420 00044         DT "   DISPEN CAFE  ",0X00
+       3444 3449 3453 
+       3450 3445 344E 
+       3420 3443 3441 
+       3446 3445 3420 
+       3420 3400 
+008A                  00045 DISPENSANDO_LECHE
+008A   3420 3420 3444 00046         DT "  DISPEN LECHE  ",0X00
+       3449 3453 3450 
+       3445 344E 3420 
+       344C 3445 3443 
+       3448 3445 3420 
+       3420 3400 
+009B                  00047 RETIRE_CAFE
+009B   3420 3420 3452 00048         DT "  RETIRE CAFE   ",0X00
+       3445 3454 3449 
+       3452 3445 3420 
+       3443 3441 3446 
+MPASM  5.30.01                      CAFETERA.ASM   11-3-2021  21:25:06         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+       3445 3420 3420 
+       3420 3400 
+                      00049 
+                      00050 
+00AC                  00051 INICIO
+Warning[203]: Found opcode in column 1. (BSF)
+00AC   1683           00052 BSF     STATUS,RP0
+Warning[203]: Found opcode in column 1. (BCF)
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00AD   1086           00053 BCF     TRISB,1
+Warning[203]: Found opcode in column 1. (BCF)
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00AE   1106           00054 BCF     TRISB,2
+Warning[203]: Found opcode in column 1. (BCF)
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00AF   1186           00055 BCF     TRISB,3
+Warning[203]: Found opcode in column 1. (BSF)
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00B0   1406           00056 BSF     TRISB,0
+Warning[203]: Found opcode in column 1. (BSF)
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00B1   1485           00057 BSF     TRISA,1
+Warning[203]: Found opcode in column 1. (BSF)
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00B2   1585           00058 BSF     TRISA,3
+Warning[203]: Found opcode in column 1. (BSF)
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00B3   1605           00059 BSF     TRISA,4
+Warning[203]: Found opcode in column 1. (BCF)
+00B4   1283           00060 BCF     STATUS,RP0
+                      00061 
+                      00062 
+                      00063 ;CALL   LCD_Inicializa
+                      00064 
+00B5                  00065 PRINCIPAL
+Warning[203]: Found opcode in column 1. (BCF)
+00B5   1186           00066 BCF     CAFE
+Warning[203]: Found opcode in column 1. (BCF)
+00B6   1106           00067 BCF     LECHE
+Warning[203]: Found opcode in column 1. (BCF)
+00B7   1086           00068 BCF     AGUA
+                      00069 
+Warning[203]: Found opcode in column 1. (CALL)
+Error[113]  : Symbol not previously defined (LCD_Inicializa)
+00B8   2000           00070 CALL    LCD_Inicializa
+                      00071 
+Warning[203]: Found opcode in column 1. (MOVLW)
+00B9   3001           00072 MOVLW .1
+Warning[203]: Found opcode in column 1. (MOVWF)
+00BA   008C           00073 MOVWF   TINTO
+Warning[203]: Found opcode in column 1. (MOVLW)
+00BB   3000           00074 MOVLW .0
+Warning[203]: Found opcode in column 1. (MOVWF)
+MPASM  5.30.01                      CAFETERA.ASM   11-3-2021  21:25:06         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00BC   008D           00075 MOVWF   MONEDA
+Warning[203]: Found opcode in column 1. (MOVLW)
+00BD   3000           00076 MOVLW .0
+Warning[203]: Found opcode in column 1. (MOVWF)
+00BE   008E           00077 MOVWF   CONTADOR
+                      00078 
+Warning[203]: Found opcode in column 1. (MOVLW)
+00BF   3002           00079 MOVLW   BIENVENIDO
+Warning[203]: Found opcode in column 1. (CALL)
+00C0   20C7           00080 CALL    LCD_Mensaje
+                      00081 
+                      00082 
+Warning[203]: Found opcode in column 1. (MOVLW)
+00C1   3013           00083 MOVLW   SELEC
+Warning[203]: Found opcode in column 1. (CALL)
+00C2   20C7           00084 CALL    LCD_Mensaje
+                      00085         
+00C3                  00086 SELECT_1
+                      00087 
+Warning[203]: Found opcode in column 1. (MOVLW)
+00C3   3001           00088 MOVLW .1
+Warning[203]: Found opcode in column 1. (XORWF)
+00C4   060C           00089 XORWF   TINTO,W
+Warning[203]: Found opcode in column 1. (BTFSS)
+00C5   1D03           00090 BTFSS   STATUS,Z
+Warning[203]: Found opcode in column 1. (GOTO)
+Error[113]  : Symbol not previously defined (PREG_TINTO_2)
+00C6   2800           00091 GOTO    PREG_TINTO_2
+                      00092 
+                      00093 
+                      00094         
+                      00095 #INCLUDE "LCD_MENS.INC"
+                      00001 
+Warning[205]: Found directive in column 1. (CBLOCK)
+                      00002 CBLOCK
+  00000012            00003 LCD_ApuntaCaracter              ; Indica la posición del carácter a visualizar
+                      00004                                         ; respecto del comienzo de todos los mensajes,
+                      00005                                         ; (posición de la etiqueta "Mensajes").
+  00000013            00006 LCD_ValorCaracter                       ; Código ASCII del carácter a 
+Warning[205]: Found directive in column 1. (ENDC)
+                      00007 ENDC                            ; visualizar.
+                      00008 
+                      00009 ; Los mensajes tienen que estar situados dentro de las 256 primeras posiciones de la 
+                      00010 ; memoria de programa, es decir, no pueden superar la dirección 0FFh.
+                      00011 
+                      00012 ; Subrutina "LCD_Mensaje" ---------------------------------------------------------------
+                      00013 ;
+                      00014 ; Visualiza por pantalla el mensaje apuntado por el registro W.
+                      00015 ;
+                      00016 ; Los mensajes deben localizarse dentro de una zona encabezada por la etiqueta "Mensajes" y que
+                      00017 ; tenga la siguiente estructura:
+                      00018 ;
+                      00019 ; Mensajes                              ; ¡Etiqueta obligatoria!
+MPASM  5.30.01                      CAFETERA.ASM   11-3-2021  21:25:06         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00020 ;       addwf   PCL,F
+                      00021 ; Mensaje0                              ; Posición inicial del mensaje.
+                      00022 ;       DT ".. ..", 0x00                        ; Mensaje terminado en 0x00.
+                      00023 ; Mensaje1
+                      00024 ;       ...     
+                      00025 ;       ...
+                      00026 ; FinMensajes
+                      00027 ;
+                      00028 ; La llamada a esta subrutina se realizará siguiendo este ejemplo:
+                      00029 ;
+                      00030 ;       movlw   Mensaje0                        ; Carga la posición del mensaje.
+                      00031 ;       call    LCD_Mensaje             ; Visualiza el mensaje.
+                      00032 ;
+00C7                  00033 LCD_Mensaje
+00C7   0092           00034         movwf   LCD_ApuntaCaracter      ; Posición del primer carácter del mensaje.
+00C8   3001           00035         movlw   Mensajes                        ; Halla la posición relativa del primer carácter
+00C9   0292           00036         subwf   LCD_ApuntaCaracter,F    ; del mensaje respecto de etiqueta "Mensajes".
+00CA   0392           00037         decf    LCD_ApuntaCaracter,F    ; Compensa la posición que ocupa "addwf PCL,F".
+00CB                  00038 LCD_VisualizaOtroCaracter
+00CB   0812           00039         movf    LCD_ApuntaCaracter,W
+00CC   2001           00040         call    Mensajes                        ; Obtiene el código ASCII del carácter apuntado.
+00CD   0093           00041         movwf   LCD_ValorCaracter               ; Guarda el valor de carácter.
+00CE   0893           00042         movf    LCD_ValorCaracter,F     ; Lo único que hace es posicionar flag Z. En caso
+00CF   1903           00043         btfsc   STATUS,Z                ; que sea "0x00", que es código indicador final 
+00D0   28D4           00044         goto    LCD_FinMensaje          ; de mensaje, sale fuera.
+00D1                  00045 LCD_NoUltimoCaracter
+Error[113]  : Symbol not previously defined (LCD_Caracter)
+00D1   2000           00046         call    LCD_Caracter            ; Visualiza el carácter ASCII leído.
+00D2   0A92           00047         incf    LCD_ApuntaCaracter,F    ; Apunta a la posición del siguiente carácter 
+00D3   28CB           00048         goto    LCD_VisualizaOtroCaracter       ; dentro del mensaje.
+00D4                  00049 LCD_FinMensaje
+00D4   0008           00050         return                          ; Vuelve al programa principal.
+                      00051 
+                      00052 ; Subrutina "LCD_MensajeMovimiento" -----------------------------------------------------
+                      00053 ;
+                      00054 ; Visualiza un mensaje de mayor longitud que los 16 caracteres que pueden representarse
+                      00055 ; en una línea, por tanto se desplaza a través de la pantalla.
+                      00056 ;
+                      00057 ; En el mensaje debe dejarse 16 espacios en blanco, al principio y al final para
+                      00058 ; conseguir que el desplazamiento del mensaje sea lo más legible posible.
+                      00059 ;
+                      00060         CBLOCK  
+  00000014            00061         LCD_CursorPosicion              ; Contabiliza la posición del cursor dentro de la
+                      00062         ENDC                            ; pantalla LCD
+                      00063 
+00D5                  00064 LCD_MensajeMovimiento
+00D5   0092           00065         movwf   LCD_ApuntaCaracter      ; Posición del primer carácter del mensaje.
+00D6   3001           00066         movlw   Mensajes                        ; Halla la posición relativa del primer carácter
+00D7   0292           00067         subwf   LCD_ApuntaCaracter,F    ; del mensaje respecto de la etiqueta "Mensajes".
+00D8   0392           00068         decf    LCD_ApuntaCaracter,F    ; Compensa la posición que ocupa "addwf PCL,F".
+00D9                  00069 LCD_PrimeraPosicion
+00D9   0194           00070         clrf    LCD_CursorPosicion      ; El cursor en la posición 0 de la línea.
+Error[113]  : Symbol not previously defined (LCD_Borra)
+MPASM  5.30.01                      CAFETERA.ASM   11-3-2021  21:25:06         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00DA   2000           00071         call    LCD_Borra               ; Se sitúa en la primera posición de la línea 1 y
+00DB                  00072 LCD_VisualizaCaracter                   ; borra la pantalla.
+Error[113]  : Symbol not previously defined (LCD_CaracteresPorLinea)
+00DB   3000           00073         movlw   LCD_CaracteresPorLinea  ; ¿Ha llegado a final de línea?
+00DC   0214           00074         subwf   LCD_CursorPosicion,W
+00DD   1D03           00075         btfss   STATUS,Z
+00DE   28E4           00076         goto    LCD_NoEsFinalLinea
+00DF                  00077 LCD_EsFinalLinea
+Error[113]  : Symbol not previously defined (Retardo_200ms)
+00DF   2000           00078         call    Retardo_200ms           ; Lo mantiene visualizado durante este tiempo.
+Error[113]  : Symbol not previously defined (Retardo_200ms)
+00E0   2000           00079         call    Retardo_200ms
+Error[113]  : Symbol not previously defined (LCD_CaracteresPorLinea)
+00E1   30FF           00080         movlw   LCD_CaracteresPorLinea-1; Apunta a la posición del segundo carácter visualizado
+00E2   0292           00081         subwf   LCD_ApuntaCaracter,F    ; en pantalla, que será el primero en la siguiente
+00E3   28D9           00082         goto    LCD_PrimeraPosicion      ; visualización de línea, para producir el efecto
+00E4                  00083 LCD_NoEsFinalLinea                      ; de desplazamiento hacia la izquierda.
+00E4   0812           00084         movf    LCD_ApuntaCaracter,W
+00E5   2001           00085         call    Mensajes                        ; Obtiene el ASCII del carácter apuntado.
+00E6   0093           00086         movwf   LCD_ValorCaracter               ; Guarda el valor de carácter.
+00E7   0893           00087         movf    LCD_ValorCaracter,F     ; Lo único que hace es posicionar flag Z. En caso
+00E8   1903           00088         btfsc   STATUS,Z                ; que sea "0x00", que es código indicador final 
+00E9   28EE           00089         goto    LCD_FinMovimiento       ; de mensaje, sale fuera.
+00EA                  00090 LCD_NoUltimoCaracter2
+Error[113]  : Symbol not previously defined (LCD_Caracter)
+00EA   2000           00091         call    LCD_Caracter            ; Visualiza el carácter ASCII leído.
+00EB   0A94           00092         incf    LCD_CursorPosicion,F    ; Contabiliza el incremento de posición del 
+                      00093                                         ; cursor en la pantalla.
+00EC   0A92           00094         incf    LCD_ApuntaCaracter,F    ; Apunta a la siguiente posición por visualizar.
+00ED   28DB           00095         goto    LCD_VisualizaCaracter   ; Vuelve a visualizar el siguiente carácter
+00EE                  00096 LCD_FinMovimiento                       ; de la línea.
+00EE   0008           00097         return                          ; Vuelve al programa principal.
+                      00098         
+Error[111]  : Missing symbol
+                      00099         ===================================================================
+                      00096 
+Warning[205]: Found directive in column 1. (end)
+                      00097 end
+MPASM  5.30.01                      CAFETERA.ASM   11-3-2021  21:25:06         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+AGUA                              PORTB,1
+B.ENTER                           PORTA,4
+BIENVENIDO                        00000002
+C                                 00000000
+CAFE                              PORTB,3
+CAFE_CON_LECHE                    00000035
+CAFE_EN_LECHE                     00000046
+CAFE_NEGRO                        00000024
+CONTADOR                          0000000E
+CONTADOR_1                        0000000F
+CONTADOR_2                        00000010
+CONTADOR_3                        00000011
+DC                                00000001
+DISPENSANDO_AGUA                  00000068
+DISPENSANDO_CAFE                  00000079
+DISPENSANDO_LECHE                 0000008A
+EEADR                             00000009
+EECON1                            00000088
+EECON2                            00000089
+EEDATA                            00000008
+EEIE                              00000006
+EEIF                              00000004
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INGRESE_MONEDAS                   00000057
+INICIO                            000000AC
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+LCD_ApuntaCaracter                00000012
+LCD_CursorPosicion                00000014
+LCD_EsFinalLinea                  000000DF
+LCD_FinMensaje                    000000D4
+LCD_FinMovimiento                 000000EE
+LCD_Mensaje                       000000C7
+LCD_MensajeMovimiento             000000D5
+LCD_NoEsFinalLinea                000000E4
+LCD_NoUltimoCaracter              000000D1
+LCD_NoUltimoCaracter2             000000EA
+LCD_PrimeraPosicion               000000D9
+LCD_ValorCaracter                 00000013
+LCD_VisualizaCaracter             000000DB
+LCD_VisualizaOtroCaracter         000000CB
+LECHE                             PORTB,2
+MONEDA                            0000000D
+Mensajes                          00000001
+NOT_PD                            00000003
+NOT_RBPU                          00000007
+NOT_TO                            00000004
+MPASM  5.30.01                      CAFETERA.ASM   11-3-2021  21:25:06         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+OPTION_REG                        00000081
+PCL                               00000002
+PCLATH                            0000000A
+PORTA                             00000005
+PORTB                             00000006
+PRINCIPAL                         000000B5
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RBIE                              00000003
+RBIF                              00000000
+RD                                00000000
+RETIRE_CAFE                       0000009B
+RP0                               00000005
+RP1                               00000006
+SELEC                             00000013
+SELECT                            PORTA,3
+SELECT_1                          000000C3
+SM                                PORTA,1
+SR                                PORTB,0
+STATUS                            00000003
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+TINTO                             0000000C
+TMR0                              00000001
+TRISA                             00000085
+TRISB                             00000086
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_CP_OFF                           00003FFF
+_CP_ON                            0000000F
+_HS_OSC                           00003FFE
+_LP_OSC                           00003FFC
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F84A                          00000001
+MPASM  5.30.01                      CAFETERA.ASM   11-3-2021  21:25:06         PAGE  9
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+00C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXX- ----------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   239
+Program Memory Words Free:   785
+
+
+Errors   :    10
+Warnings :    37 reported,     0 suppressed
+Messages :     7 reported,     0 suppressed
+
+
